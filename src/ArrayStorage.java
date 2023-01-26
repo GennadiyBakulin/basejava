@@ -17,7 +17,7 @@ public class ArrayStorage {
     Resume get(String uuid) {
         int i = 0;
         while (storage[i] != null) {
-            if (storage[i].uuid == uuid) {
+            if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
             i++;
