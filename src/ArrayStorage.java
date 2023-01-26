@@ -14,9 +14,8 @@ public class ArrayStorage {
 
     void save(Resume r) {
         int sizeStorage = size();
-        if (sizeStorage == storage.length)
-            System.out.println("Превышено максимальное количество сохраняемых резюме в базе!");
-        storage[sizeStorage] = r;
+        if (sizeStorage < storage.length)
+            storage[sizeStorage] = r;
     }
 
     Resume get(String uuid) {
