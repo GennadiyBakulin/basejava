@@ -5,6 +5,11 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
+        int i = 0;
+        while (storage[i] != null) {
+            storage[i] = null;
+            i++;
+        }
     }
 
     void save(Resume r) {
