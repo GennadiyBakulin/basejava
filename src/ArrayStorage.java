@@ -5,60 +5,52 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private int size = 0;
 
     void clear() {
-        int i = 0;
-        while (storage[i] != null) {
+        for (int i = 0; i < size; i++) {
             storage[i] = null;
-            i++;
         }
+        size = 0;
     }
 
     void save(Resume r) {
-        int sizeStorage = size();
-        if (sizeStorage < storage.length)
-            storage[sizeStorage] = r;
+        if (size < storage.length) {
+            storage[size] = r;
+            size++;
+        }
     }
 
     Resume get(String uuid) {
-        int i = 0;
-        while (storage[i] != null) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
-            i++;
         }
         return null;
     }
 
     void delete(String uuid) {
-        int i = 0;
-        while (storage[i] != null) {
-            if (storage[i].uuid.equals(uuid)) {
-                storage[i] = null;
-                break;
+        boolean isfoundDeletedResume = false;
+        for (int i = 0; i < size; i++) {
+            if (!isfoundDeletedResume && storage[i].uuid.equals(uuid)) {
+                isfoundDeletedResume = true;
             }
-            i++;
+            if (isfoundDeletedResume) {
+                storage[i] = storage[i + 1];
+            }
         }
-        while (storage[i + 1] != null) {
-            storage[i] = storage[i + 1];
-            storage[i + 1] = null;
-            i++;
-        }
+        if (isfoundDeletedResume) size--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
-        int i = 0;
-        while (storage[i] != null) {
-            i++;
-        }
-        return i;
+        return size;
     }
 }
