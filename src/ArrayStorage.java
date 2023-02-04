@@ -8,36 +8,45 @@ public class ArrayStorage {
     private int size;
 
     void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, size - 1, null);
         size = 0;
     }
 
     void save(Resume r) {
-        if (size < storage.length) {
+        int index = isFindResume(r.uuid);
+        if (index == -1 && size < storage.length) {
             storage[size] = r;
             size++;
+        } else {
+            System.out.println("Error");
+        }
+    }
+
+    void update(Resume r) {
+        int index = isFindResume(r.uuid);
+        if (index != -1) {
+            storage[index] = r;
+        } else {
+            System.out.println("Error");
         }
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                return storage[i];
-            }
+        int index = isFindResume(uuid);
+        if (index != -1) {
+            return storage[index];
         }
         return null;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-               storage[i] = storage[size-1];
-               storage[size-1] = null;
-               size--;
-               break;
-            }
+        int index = isFindResume(uuid);
+        if (index != -1) {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.println("Error");
         }
     }
 
@@ -50,5 +59,14 @@ public class ArrayStorage {
 
     int size() {
         return size;
+    }
+
+    private int isFindResume(String uuid) {
+        for (int index = 0; index < size; index++) {
+            if (storage[index].uuid.equals(uuid)) {
+                return index;
+            }
+        }
+        return -1;
     }
 }
