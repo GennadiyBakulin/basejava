@@ -18,7 +18,7 @@ public class ArrayStorage {
             storage[size] = r;
             size++;
         } else {
-            System.out.println("Error");
+            System.out.println("Резюме с uuid=" + r.uuid + " в базе уже сущуствует");
         }
     }
 
@@ -27,7 +27,7 @@ public class ArrayStorage {
         if (index != -1) {
             storage[index] = r;
         } else {
-            System.out.println("Error");
+            System.out.println("Резюме с uuid=" + r.uuid + " в базе не найдено!");
         }
     }
 
@@ -35,8 +35,10 @@ public class ArrayStorage {
         int index = isFindResume(uuid);
         if (index != -1) {
             return storage[index];
+        } else {
+            System.out.println("Резюме с uuid=" + uuid + " в базе не найдено!");
+            return null;
         }
-        return null;
     }
 
     void delete(String uuid) {
@@ -46,7 +48,7 @@ public class ArrayStorage {
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("Error");
+            System.out.println("Резюме с uuid=" + uuid + " в базе не найдено!");
         }
     }
 
