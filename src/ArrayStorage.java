@@ -13,8 +13,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        int index = isFindResume(r.uuid);
-        if (index == -1 && size < storage.length) {
+        if (getIndex(r.uuid) == -1 && size < storage.length) {
             storage[size] = r;
             size++;
         } else {
@@ -23,7 +22,7 @@ public class ArrayStorage {
     }
 
     void update(Resume r) {
-        int index = isFindResume(r.uuid);
+        int index = getIndex(r.uuid);
         if (index != -1) {
             storage[index] = r;
         } else {
@@ -32,7 +31,7 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        int index = isFindResume(uuid);
+        int index = getIndex(uuid);
         if (index != -1) {
             return storage[index];
         } else {
@@ -42,7 +41,7 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int index = isFindResume(uuid);
+        int index = getIndex(uuid);
         if (index != -1) {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
@@ -63,7 +62,7 @@ public class ArrayStorage {
         return size;
     }
 
-    private int isFindResume(String uuid) {
+    private int getIndex(String uuid) {
         for (int index = 0; index < size; index++) {
             if (storage[index].uuid.equals(uuid)) {
                 return index;
