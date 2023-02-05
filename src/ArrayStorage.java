@@ -3,17 +3,18 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+public class ArrayStorage implements Storage {
+    private static final int STORAGE_LIMIT = 10000;
+    Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size;
 
-    void clear() {
+    public void clear() {
         Arrays.fill(storage, 0, size - 1, null);
         size = 0;
     }
 
-    void save(Resume r) {
-        if (getIndex(r.getUuid()) == -1 && size < storage.length) {
+    public void save(Resume r) {
+        if (getIndex(r.getUuid()) == -1 && size < STORAGE_LIMIT) {
             storage[size] = r;
             size++;
         } else {
@@ -21,7 +22,7 @@ public class ArrayStorage {
         }
     }
 
-    void update(Resume r) {
+    public void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index != -1) {
             storage[index] = r;
@@ -30,7 +31,7 @@ public class ArrayStorage {
         }
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
             return storage[index];
@@ -40,7 +41,7 @@ public class ArrayStorage {
         }
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
             storage[index] = storage[size - 1];
@@ -54,11 +55,11 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 
