@@ -12,6 +12,11 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
+    public void clear() {
+        Arrays.fill(storage, 0, size - 1, null);
+        size = 0;
+    }
+
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
@@ -20,6 +25,10 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Резюме с uuid=" + uuid + " в базе не найдено!");
             return null;
         }
+    }
+
+    public Resume[] getAll() {
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
     protected abstract int getIndex(String uuid);
