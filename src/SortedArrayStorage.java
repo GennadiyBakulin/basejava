@@ -3,11 +3,6 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
     public void save(Resume r) {
         if (size == 0) {
             storage[0] = r;
@@ -41,12 +36,25 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void update(Resume r) {
-
+        int index = getIndex(r.getUuid());
+        if (index < 0) {
+            System.out.println("Резюме с uuid=" + r.getUuid() + " в базе не найдено!");
+        } else {
+            storage[index] = r;
+        }
     }
 
     @Override
     public void delete(String uuid) {
-
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Резюме с uuid=" + uuid + " в базе не найдено!");
+        } else {
+            Resume[] temp = Arrays.copyOfRange(storage, index + 1, size);
+            System.arraycopy(temp, 0, storage, index, temp.length);
+            storage[size - 1] = null;
+            size--;
+        }
     }
 
     @Override
