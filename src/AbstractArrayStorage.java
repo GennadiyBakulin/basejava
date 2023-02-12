@@ -1,3 +1,6 @@
+import exception.ExistStorageException;
+import exception.StorageException;
+
 import java.util.Arrays;
 
 /**
@@ -16,9 +19,9 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(r.getUuid());
 
         if (index > 0) {
-            System.out.println("Резюме с uuid=" + r.getUuid() + " в базе уже сущуствует");
+            throw new ExistStorageException(r.getUuid());
         } else if (size == STORAGE_LIMIT) {
-            System.out.println("Превышено максимальное количество Резюме в базе");
+            throw new StorageException("Превышено максимальное количество Резюме в базе - ", r.getUuid());
         } else {
             insertElement(r, index);
             size++;
@@ -35,7 +38,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("Резюме с uuid=" + r.getUuid() + " в базе не найдено!");
+            throw new ExistStorageException(r.getUuid());
         } else {
             storage[index] = r;
         }
@@ -46,15 +49,14 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index != -1) {
             return storage[index];
         } else {
-            System.out.println("Резюме с uuid=" + uuid + " в базе не найдено!");
-            return null;
+            throw new ExistStorageException(uuid);
         }
     }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Резюме с uuid=" + uuid + " в базе не найдено!");
+            throw new ExistStorageException(uuid);
         } else {
             fillDeletedElement(index);
             storage[size - 1] = null;
