@@ -1,4 +1,5 @@
 import exception.ExistStorageException;
+import exception.NotExistStorageException;
 import exception.StorageException;
 
 import java.util.Arrays;
@@ -49,7 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index != -1) {
             return storage[index];
         } else {
-            throw new ExistStorageException(uuid);
+            throw new NotExistStorageException(uuid);
         }
     }
 
